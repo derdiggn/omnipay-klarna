@@ -156,7 +156,12 @@ class InvoiceAuthorizeRequest extends AbstractInvoiceRequest
 
     protected function sendRequestViaConnector(Klarna $connector, array $data)
     {
-        return $connector->reserveAmount($data['pno'], $data['gender'], $data['amount']);
+        $pclass = KlarnaPClass::INVOICE;
+        if(!empty($data['pclass'])) {
+            $pclass = $data['pclass'];
+        }
+        
+        return $connector->reserveAmount($data['pno'], $data['gender'], $data['amount'], $pclass);
     }
 
     /**
